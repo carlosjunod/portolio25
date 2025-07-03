@@ -23,7 +23,7 @@ export default function ParticleBackground() {
     mount.appendChild(renderer.domElement);
 
     // Create circular sprite texture for points
-    const spriteSize = 4;
+    const spriteSize = 64;
     const spriteCanvas = document.createElement('canvas');
     spriteCanvas.width = spriteCanvas.height = spriteSize;
     const spriteCtx = spriteCanvas.getContext('2d');
@@ -55,19 +55,34 @@ export default function ParticleBackground() {
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
+    // Prepare per-particle velocities and original positions for repulsion/attraction
+    const velocities = new Float32Array(count * 3).fill(0);
+    const origPositions = new Float32Array(positions);
+    const pointer3D = new THREE.Vector3();
+    const prevPointer3D = new THREE.Vector3();
+    const pointerVelocity3D = new THREE.Vector3();
+    const repulseRadius = 3;
+    const repulseStrength = 5;
+    const attractionStrength = 0.0002;
+    const friction = 0.95;
+
     // Track pointer movement for parallax effect
     let mouseX = 0;
     let mouseY = 0;
     const handlePointerMove = (e) => {
       mouseX = (e.clientX / mount.clientWidth) * 2 - 1;
       mouseY = -(e.clientY / mount.clientHeight) * 2 + 1;
+      // Compute world-space pointer and velocity
+      pointer3D.set(mouseX, mouseY, 0.5).unproject(camera);
+      pointerVelocity3D.subVectors(pointer3D, prevPointer3D);
+      prevPointer3D.copy(pointer3D);
     };
     window.addEventListener('pointermove', handlePointerMove);
 
     // Animation loop
     let frameId;
     const animate = () => {
-      // Rotate particles, modulated by pointer position
+      // Rotate particles based on pointer
       particles.rotation.x += 0.0005 + mouseY * 0.00005;
       particles.rotation.y += 0.001 + mouseX * 0.00005;
 
@@ -75,6 +90,44 @@ export default function ParticleBackground() {
       camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
       camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
       camera.lookAt(scene.position);
+
+      // Particle repulsion: push nearby particles away based on pointer velocity
+      if (pointerVelocity3D.lengthSq() > 0) {
+        for (let i = 0; i < count; i++) {
+          const idx = i * 3;
+          const dx = positions[idx] - pointer3D.x;
+          const dy = positions[idx + 1] - pointer3D.y;
+          const dz = positions[idx + 2] - pointer3D.z;
+          const dist2 = dx * dx + dy * dy + dz * dz;
+          if (dist2 < repulseRadius * repulseRadius) {
+            const dist = Math.sqrt(dist2) || 1;
+            const force = ((repulseRadius - dist) / repulseRadius)
+              * pointerVelocity3D.length()
+              * repulseStrength;
+            velocities[idx] += (dx / dist) * force;
+            velocities[idx + 1] += (dy / dist) * force;
+            velocities[idx + 2] += (dz / dist) * force;
+          }
+        }
+      }
+      // Particle attraction: pull particles slowly back toward their origin
+      for (let i = 0; i < count; i++) {
+        const idx = i * 3;
+        velocities[idx] += (origPositions[idx] - positions[idx]) * attractionStrength;
+        velocities[idx + 1] += (origPositions[idx + 1] - positions[idx + 1]) * attractionStrength;
+        velocities[idx + 2] += (origPositions[idx + 2] - positions[idx + 2]) * attractionStrength;
+      }
+      // Apply velocities and friction
+      for (let i = 0; i < count; i++) {
+        const idx = i * 3;
+        positions[idx] += velocities[idx];
+        positions[idx + 1] += velocities[idx + 1];
+        positions[idx + 2] += velocities[idx + 2];
+        velocities[idx] *= friction;
+        velocities[idx + 1] *= friction;
+        velocities[idx + 2] *= friction;
+      }
+      geometry.attributes.position.needsUpdate = true;
 
       renderer.render(scene, camera);
       frameId = requestAnimationFrame(animate);
