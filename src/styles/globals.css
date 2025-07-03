@@ -1,0 +1,44 @@
+/* Global styles */
+html {
+  background-color: #0a0f1c;
+}
+body {
+  margin: 0;
+  /* allow vertical scrolling for content below the full-screen canvas */
+  overflow-x: hidden;
+  font-family: 'Lexend', sans-serif;
+}
+
+
+/* Hero component styles */
+.gradient-text {
+  background: linear-gradient(270deg, #00ff00, #00bfff, #8000ff, #00ff00);
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientAnimation 15s ease infinite;
+  filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5));
+}
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero-content {
+  text-align: center;
+  pointer-events: none;
+}
+.hero-title {
+  font-family: 'MuseoModerno', serif;
+  font-weight: 900;
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+.hero-subtitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 100;
+  letter-spacing: 0.5rem;
+  font-size: 1rem;
+  color: #fff;
+}
