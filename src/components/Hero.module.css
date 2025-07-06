@@ -1,0 +1,38 @@
+.cubeContainer {
+  perspective: 400px;
+  height: 50px; /* Adjust to fit font size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+
+  /* Applying original .hero-subtitle styles */
+  font-family: 'Lexend', sans-serif;
+  font-weight: 100;
+  letter-spacing: 0.5rem;
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* Positioning the 4 faces of the cube */
+.face1 { transform: rotateX(0deg) translateZ(25px); }
+.face2 { transform: rotateX(90deg) translateZ(25px); }
+.face3 { transform: rotateX(180deg) translateZ(25px); }
+.face4 { transform: rotateX(270deg) translateZ(25px); }

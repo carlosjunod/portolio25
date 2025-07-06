@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import '../styles/CardFlipDeck.css';
 
 /**
  * Custom App to initialize pages with global styles

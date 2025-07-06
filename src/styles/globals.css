@@ -42,3 +42,14 @@ body {
   font-size: 1rem;
   color: #fff;
 }
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem; /* Smaller font size for mobile */
+  }
+  .hero-subtitle {
+    font-size: 0.8rem; /* Adjust subtitle as well if needed */
+    letter-spacing: 0.3rem;
+  }
+}

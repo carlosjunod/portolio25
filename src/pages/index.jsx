@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { FullPageScroller } from '@carlosjunod/react-full-page-scroller';
 import ParticleBackground from '../components/ParticleBackground';
 import Hero from '../components/Hero';
-import CardDeck from '../components/CardFlipDeck';
-import { experiences } from '../data/experiences';
+import ExperienceCarousel from '../components/ExperienceCarousel';
+import Contact from '../components/Contact';
 
 function ClientOnlyFullPageScroller({ children }) {
   const [mounted, setMounted] = useState(false);
+  const [enabled, setEnabled] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+  useEffect(() => {
+    if (!mounted) return;
+    const update = () => setEnabled(window.innerWidth >= 1024);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, [mounted]);
   if (!mounted) {
     return (
       <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}>
@@ -19,7 +27,7 @@ function ClientOnlyFullPageScroller({ children }) {
       </div>
     );
   }
-  return <FullPageScroller>{children}</FullPageScroller>;
+  return <FullPageScroller enabled={enabled}>{children}</FullPageScroller>;
 }
 
 export default function Home() {
@@ -46,9 +54,26 @@ export default function Home() {
             justifyContent: 'center',
             width: '100vw',
             height: '100vh',
+            position: 'relative',
+            zIndex: 1,
+            pointerEvents: 'auto',
           }}
         >
-          <CardDeck experiences={experiences} />
+          <ExperienceCarousel />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100vw',
+            height: '100vh',
+            position: 'relative',
+            zIndex: 1,
+            pointerEvents: 'auto',
+          }}
+        >
+          <Contact />
         </div>
       </ClientOnlyFullPageScroller>
     </>

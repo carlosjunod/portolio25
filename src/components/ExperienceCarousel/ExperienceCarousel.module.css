@@ -1,0 +1,162 @@
+.container {
+  position: relative;
+  outline: none;
+  width: 70vw;
+  margin: 0 auto;
+  border-radius: 16px;
+  padding: 24px 0;
+}
+
+/* Section title above the cards */
+.sectionTitle {
+  font-size: 36px;
+  font-weight: 800;
+  color: #F3F4F6;
+  text-align: center;
+  margin: 32px 0;
+  padding: 0;
+}
+
+/* Masonry layout via CSS columns (3 columns desktop, 1 on mobile) */
+.cardsContainer {
+  column-count: 3;
+  column-gap: 80px;
+}
+
+@media (max-width: 640px) {
+  .cardsContainer {
+    column-count: 1;
+    column-gap: 0;
+  }
+  .container {
+    width: 100%;
+    padding: 24px;
+  }
+}
+
+.card {
+  display: inline-block;
+  break-inside: avoid;
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 24px;
+  margin: 0 0 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.card:focus-within {
+  outline: 2px solid #2563EB;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+/* allow titleGroup to expand so dateChip is right-aligned */
+.titleGroup {
+  flex: 1;
+}
+.titleGroup h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 28px;
+  margin: 0;
+}
+
+.titleGroup p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #4B5563;
+  margin: 4px 0 0 0;
+}
+
+.titleGroup span {
+  font-size: 14px;
+  font-style: italic;
+  color: #6B7280;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Title row with date chip */
+.headerTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.dateChip {
+  display: inline-flex;
+  align-items: center;
+  background-color: #F3F4F6;
+  color: #6B7280;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+.dateChip i {
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+/* hide company logo */
+.cardHeader img { display: none; }
+
+/* tech icons list */
+.techIcons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.techIcon {
+  font-size: 28px;
+  color: #6B7280;
+}
+.techPlaceholder {
+  font-size: 14px;
+  color: #6B7280;
+  padding: 4px 8px;
+  background: rgba(107,114,128,0.1);
+  border-radius: 4px;
+}
+
+.cardBody {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 75%;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.listItem:last-child {
+  margin-bottom: 0;
+}
+
+.bulletIcon {
+  flex-shrink: 0;
+}
+
+.itemText {
+  margin: 0;
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #374151;
+  line-height: 20px;
+}
