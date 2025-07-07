@@ -66,22 +66,23 @@ export default function Contact() {
       return;
     }
 
-    const serviceID = 'service_48reqmo';
-    const templateID = 'template_bk4mtem';
-    const userID = 'pNLsV9xokOwQniCEO';
+    // TODO: Replace with your actual EmailJS credentials
+    const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const userID = process.env.NEXT_PUBLIC_EMAILJS_USER_ID;
 
     emailjs.sendForm(serviceID, templateID, e.target, userID)
       .then((result) => {
-        console.log(result.text);
-        setFormStatus('success');
-        setFormData({ name: '', email: '', message: '', recruiter: false });
-        recaptchaRef.current.reset();
-        e.target.reset(); // Reset file input
-        setTimeout(() => setFormStatus(''), 5000);
+          console.log(result.text);
+          setFormStatus('success');
+          setFormData({ name: '', email: '', message: '', recruiter: false });
+          recaptchaRef.current.reset();
+          e.target.reset(); // Reset file input
+          setTimeout(() => setFormStatus(''), 5000);
       }, (error) => {
-        console.log(error.text);
-        setFormStatus('error');
-        setTimeout(() => setFormStatus(''), 5000);
+          console.log(error.text);
+          setFormStatus('error');
+          setTimeout(() => setFormStatus(''), 5000);
       });
   };
 
@@ -146,7 +147,7 @@ export default function Contact() {
             <div className={styles.inputGroup}>
               <ReCAPTCHA
                 ref={recaptchaRef}
-                sitekey="6LeWinkrAAAAAMSUTHTkBQYpp9q0QLraXTG6r8bN"
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} // Using environment variable
                 onChange={onRecaptchaChange}
                 theme="dark"
               />

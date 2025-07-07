@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { FullPageScroller } from '@carlosjunod/react-full-page-scroller';
 import ParticleBackground from '../components/ParticleBackground';
 import Hero from '../components/Hero';
@@ -33,6 +34,11 @@ function ClientOnlyFullPageScroller({ children }) {
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>Carlos Junod | FrontEnd Developer</title>
+        <meta name="description" content="The portfolio of Carlos Junod, a passionate FrontEnd Developer specializing in React, Next.js, and creating beautiful user experiences." />
+        <meta name="keywords" content="Carlos Junod, Portfolio, FrontEnd Developer, React Developer, Next.js" />
+      </Head>
       <ParticleBackground />
       <ClientOnlyFullPageScroller>
         <div
