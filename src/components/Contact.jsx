@@ -30,9 +30,6 @@ export default function Contact() {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid.';
     }
-    if (!formData.recruiter) {
-      newErrors.recruiter = 'This field is required.';
-    }
     if (!recaptchaRef.current.getValue()) {
       newErrors.recaptcha = 'Please complete the reCAPTCHA.';
     }
@@ -129,19 +126,15 @@ export default function Contact() {
               value={formData.message}
               onChange={handleChange}
             ></textarea>
-            <div className={styles.inputGroup}>
-              <div className={styles.checkboxContainer}>
-                <input
-                  type="checkbox"
-                  id="recruiter"
-                  name="recruiter"
-                  checked={formData.recruiter}
-                  onChange={handleChange}
-                  className={errors.recruiter ? styles.inputError : ''}
-                />
-                <label htmlFor="recruiter">Are you a recruiter?</label>
-              </div>
-              {errors.recruiter && <ErrorMessage message={errors.recruiter} />}
+            <div className={styles.checkboxContainer}>
+              <input
+                type="checkbox"
+                id="recruiter"
+                name="recruiter"
+                checked={formData.recruiter}
+                onChange={handleChange}
+              />
+              <label htmlFor="recruiter">Are you a recruiter?</label>
             </div>
             <input type="file" name="attachment" className={styles.fileInput} />
             <div className={styles.inputGroup}>

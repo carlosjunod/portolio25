@@ -6,32 +6,35 @@ import Hero from '../components/Hero';
 import ExperienceCarousel from '../components/ExperienceCarousel';
 import Contact from '../components/Contact';
 
-function ClientOnlyFullPageScroller({ children }) {
-  const [mounted, setMounted] = useState(false);
-  const [enabled, setEnabled] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  useEffect(() => {
-    if (!mounted) return;
-    const update = () => setEnabled(window.innerWidth >= 1024);
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, [mounted]);
-  if (!mounted) {
-    return (
-      <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}>
-        <div style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0 }}>
-          {children[0]}
-        </div>
-      </div>
-    );
-  }
-  return <FullPageScroller enabled={enabled}>{children}</FullPageScroller>;
-}
+// A simple wrapper for a page section
+const Section = ({ children, isHero = false }) => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100vw',
+    minHeight: '100vh', // Use minHeight for mobile to allow content to expand
+    position: 'relative',
+    padding: '2rem 0', // Add some padding for mobile
+    pointerEvents: isHero ? 'none' : 'auto',
+  }}>
+    {children}
+  </div>
+);
 
 export default function Home() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    // Ensure window is defined (for SSR)
+    if (typeof window !== 'undefined') {
+      const update = () => setIsDesktop(window.innerWidth >= 1024);
+      update(); // Set initial value
+      window.addEventListener('resize', update);
+      return () => window.removeEventListener('resize', update);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -71,48 +74,20 @@ export default function Home() {
         />
       </Head>
       <ParticleBackground />
-      <ClientOnlyFullPageScroller>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100vw',
-            height: '100vh',
-            pointerEvents: 'none',
-          }}
-        >
-          <Hero />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100vw',
-            height: '100vh',
-            position: 'relative',
-            zIndex: 1,
-            pointerEvents: 'auto',
-          }}
-        >
-          <ExperienceCarousel />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100vw',
-            height: '100vh',
-            position: 'relative',
-            zIndex: 1,
-            pointerEvents: 'auto',
-          }}
-        >
-          <Contact />
-        </div>
-      </ClientOnlyFullPageScroller>
+
+      {isDesktop ? (
+        <FullPageScroller>
+          <Section isHero={true}><Hero /></Section>
+          <Section><ExperienceCarousel /></Section>
+          <Section><Contact /></Section>
+        </FullPageScroller>
+      ) : (
+        <main>
+          <Section isHero={true}><Hero /></Section>
+          <Section><ExperienceCarousel /></Section>
+          <Section><Contact /></Section>
+        </main>
+      )}
     </>
   );
 }
