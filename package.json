@@ -7,7 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@carlosjunod/react-full-page-scroller": "^1.1.0",
+    "@carlosjunod/react-full-page-scroller": "^1.2.1",
     "emailjs-com": "^3.2.0",
     "framer-motion": "^6.5.1",
     "next": "^14.2.30",
