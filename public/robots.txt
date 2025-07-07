@@ -1,0 +1,19 @@
+# Allow all crawlers, including AI, full access.
+User-agent: *
+Allow: /
+
+# Explicitly state policy for major AI crawlers.
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.carlosjunod.me/sitemap.xml

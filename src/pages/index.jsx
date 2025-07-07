@@ -38,6 +38,37 @@ export default function Home() {
         <title>Carlos Junod | FrontEnd Developer</title>
         <meta name="description" content="The portfolio of Carlos Junod, a passionate FrontEnd Developer specializing in React, Next.js, and creating beautiful user experiences." />
         <meta name="keywords" content="Carlos Junod, Portfolio, FrontEnd Developer, React Developer, Next.js" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.carlosjunod.me/" />
+        <meta property="og:title" content="Carlos Junod | FrontEnd Developer" />
+        <meta property="og:description" content="The portfolio of Carlos Junod, a passionate FrontEnd Developer specializing in React, Next.js, and creating beautiful user experiences." />
+        <meta property="og:image" content="https://www.carlosjunod.me/og-image.png" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://www.carlosjunod.me/" />
+        <meta property="twitter:title" content="Carlos Junod | FrontEnd Developer" />
+        <meta property="twitter:description" content="The portfolio of Carlos Junod, a passionate FrontEnd Developer specializing in React, Next.js, and creating beautiful user experiences." />
+        <meta property="twitter:image" content="https://www.carlosjunod.me/og-image.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Carlos Junod",
+              "url": "https://www.carlosjunod.me",
+              "jobTitle": "FrontEnd Developer",
+              "email": "hello@carlosjunod.me",
+              "sameAs": [
+                "https://www.linkedin.com/in/carlosjunod",
+                "https://github.com/carlosjunod"
+              ]
+            })
+          }}
+        />
       </Head>
       <ParticleBackground />
       <ClientOnlyFullPageScroller>
