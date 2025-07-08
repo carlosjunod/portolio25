@@ -14,10 +14,13 @@ export interface Experience {
   technologies: string[];
 }
 
-export interface ExperienceCardProps extends Experience {}
+export interface ExperienceCardProps extends Experience {
+  isOpen: boolean;
+  onToggle: () => void;
+}
 
 const ExperienceCard = React.forwardRef<HTMLDivElement, ExperienceCardProps>(
-  ({ id, companyLogo, alt, companyName, position, dateRange, responsibilities, technologies }, ref) => {
+  ({ id, companyLogo, alt, companyName, position, dateRange, responsibilities, technologies, isOpen, onToggle }, ref) => {
     const techIconClasses: Record<string, string | null> = {
       React: 'fab fa-react',
       'React.js': 'fab fa-react',
@@ -38,24 +41,34 @@ const ExperienceCard = React.forwardRef<HTMLDivElement, ExperienceCardProps>(
       Tech: null,
     };
     return (
-      <article role="group" className={styles.card} ref={ref as React.Ref<HTMLDivElement>}>
-        <CardHeader
-          companyLogo={companyLogo}
-          alt={alt}
-          companyName={companyName}
-          position={position}
-          dateRange={dateRange}
-        />
-        <CardBody responsibilities={responsibilities} />
-        <div className={styles.techIcons}>
-          {technologies.map((tech, idx) => {
-            const cls = techIconClasses[tech];
-            return cls ? (
-              <i key={idx} className={`${cls} ${styles.techIcon}`} title={tech} aria-label={tech} />
-            ) : (
-              <span key={idx} className={styles.techPlaceholder}>{tech}</span>
-            );
-          })}
+      <article role="group" className={`${styles.card} ${isOpen ? styles.cardOpen : ''}`} ref={ref as React.Ref<HTMLDivElement>}>
+        <div className={styles.cardHeaderContainer} onClick={onToggle}>
+          <CardHeader
+            companyLogo={companyLogo}
+            alt={alt}
+            companyName={companyName}
+            position={position}
+            dateRange={dateRange}
+            isOpen={isOpen}
+          />
+          <span className={`${styles.chevron} ${isOpen ? styles.open : ''}`}>&#9660;</span>
+        </div>
+        <div className={styles.collapsibleSection}>
+          {isOpen && (
+            <>
+              <CardBody responsibilities={responsibilities} />
+              <div className={styles.techIcons}>
+                {technologies.map((tech, idx) => {
+                  const cls = techIconClasses[tech];
+                  return cls ? (
+                    <i key={idx} className={`${cls} ${styles.techIcon}`} title={tech} aria-label={tech} />
+                  ) : (
+                    <span key={idx} className={styles.techPlaceholder}>{tech}</span>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </article>
     );

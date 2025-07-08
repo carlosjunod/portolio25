@@ -4,7 +4,7 @@
   width: 70vw;
   margin: 0 auto;
   border-radius: 16px;
-  padding: 24px 0;
+  padding: 24px 12px;
 }
 
 /* Section title above the cards */
@@ -23,14 +23,24 @@
   column-gap: 80px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
   .cardsContainer {
     column-count: 1;
     column-gap: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .container {
     width: 100%;
-    padding: 24px;
+    padding: 24px 16px; /* Added horizontal padding */
+    box-sizing: border-box; /* This is the critical fix */
+  }
+  .card {
+    width: 100%; /* Card will fill the padded container */
+  }
+  .chevron {
+    display: block !important;
   }
 }
 
@@ -44,6 +54,33 @@
   padding: 24px;
   margin: 0 0 24px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chevron {
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+  display: none; /* Hidden on desktop */
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.collapsibleSection {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.cardOpen .collapsibleSection {
+  max-height: 1000px; /* Large enough to fit content */
 }
 
 .card:hover {

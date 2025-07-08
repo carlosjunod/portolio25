@@ -8,6 +8,7 @@ interface CardHeaderProps {
   companyName: string;
   position: string;
   dateRange: string;
+  isOpen: boolean;
 }
 
 const CardHeader: React.FC<CardHeaderProps> = ({
@@ -16,6 +17,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({
   companyName,
   position,
   dateRange,
+  isOpen,
 }) => (
     <div className={styles.cardHeader} tabIndex={0}>
     <img
@@ -52,10 +54,12 @@ const CardHeader: React.FC<CardHeaderProps> = ({
           {position}
         </p>
       </div>
-      <div className={styles.dateChip}>
-        <i className="fas fa-calendar-alt" aria-hidden="true" />
-        <span>{dateRange}</span>
-      </div>
+      {isOpen && (
+        <div className={styles.dateChip}>
+          <i className="fas fa-calendar-alt" aria-hidden="true" />
+          <span>{dateRange}</span>
+        </div>
+      )}
     </div>
   </div>
 );
